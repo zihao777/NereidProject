@@ -62,7 +62,11 @@ public class ClassificationsDAO {
             ps = conn.prepareStatement("INSERT INTO " + tblName + " (name,childrenID,level) values(?,?,?);");
             ps.setString(1,  c.name);
             String var= "";
-            if(c.childrenID.length == 1) {
+            System.out.println(c.childrenID);
+            if(c.childrenID == null) {
+            	var = "";
+            }
+            else if(c.childrenID.length == 1) {
             	var  = var + c.childrenID[0];
             }else if(c.childrenID.length > 1) {
             	var  = var + c.childrenID[0];
@@ -73,8 +77,26 @@ public class ClassificationsDAO {
             ps.setString(2,  var);
             ps.setInt(3,  c.level);
             ps.execute();
+            
+            ps = conn.prepareStatement("SELECT LAST_INSERT_ID();");
+            resultSet = ps.executeQuery();
+            resultSet.next();
+            int childID = resultSet.getInt("LAST_INSERT_ID()");
+            
+            ps = conn.prepareStatement("SELECT * FROM " + tblName + " WHERE id = ?;");
+            ps.setInt(1, c.fatherID);
+            resultSet = ps.executeQuery();
+            resultSet.next();
+            
+            String var1 = resultSet.getString("childrenID");
+            if(var1.equals("")) {
+            	var1 = Integer.toString(childID);
+            }else {
+            	var1 = var1 + ","+ childID;
+            }
+            ps = conn.prepareStatement("UPDATE "+ tblName+ " SET childrenID= \""+ var1 +"\" WHERE id ="+c.fatherID+";");
+            ps.execute();
             return true;
-
         } catch (Exception e) {
             throw new Exception("Failed to insert classification: " + e.getMessage());
         }

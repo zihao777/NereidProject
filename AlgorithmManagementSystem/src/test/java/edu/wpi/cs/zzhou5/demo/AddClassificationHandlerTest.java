@@ -32,8 +32,8 @@ public class AddClassificationHandlerTest extends LambdaTest{
     public void testShouldBeOk() {
     	int rndNum = (int)(990*(Math.random()));
     	String var = "throwAway" + rndNum;
-    	int[] arg2 = new int[] {};
-    	int arg3 = 0;
+    	int arg2 = 1;
+    	int arg3 = 1;
 //    	String var = "Greedy Algorithm";
     	
     	AddClassificationRequest ccr = new AddClassificationRequest(var,arg2,arg3);
@@ -48,7 +48,7 @@ public class AddClassificationHandlerTest extends LambdaTest{
     
 //    @Test
 //    public void testShouldBefail() {
-//    	int rndNum = 418;
+//    	int rndNum = 719;
 //    	String var = "throwAway" + rndNum;
 //    	int arg2 = 9;
 //    	int arg3 = 1;

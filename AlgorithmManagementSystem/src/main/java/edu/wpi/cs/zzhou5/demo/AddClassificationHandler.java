@@ -22,13 +22,13 @@ import edu.wpi.cs.zzhou5.demo.model.Classification;
 public class AddClassificationHandler implements RequestHandler<AddClassificationRequest,AddClassificationResponse>{
 	LambdaLogger logger;
 	
-	boolean createClassification(String name,int[] childrenID, int level) throws Exception { 
+	boolean createClassification(String name,int fatherID, int level) throws Exception { 
 		if (logger != null) { logger.log("in add Classification"); }
 		ClassificationsDAO dao = new ClassificationsDAO();
 		
 		// check if present
 		Classification exist = dao.getClassification(name);
-		Classification user = new Classification (name,childrenID,level);
+		Classification user = new Classification (name,fatherID,level);
 		if (exist == null) {
 			return dao.addClassification(user);
 		} else {
