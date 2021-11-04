@@ -36,6 +36,18 @@
         #dropdownAction {
             visibility: hidden;
         }
+
+        .addClassificationBoard {
+            display: none;
+        }
+
+        .addClassificationBoard1 {
+            display: none;
+        }
+
+        .addAlgorithmBoard {
+            display: none;
+        }
     </style>
 </head>
 
@@ -48,6 +60,7 @@
                 </div>
             </div>
         </div>
+        <!--------------------------------------- actiion面板 -------------------------------------->
         <div class="row mb-3">
             <div id="dropdownAction" class="dropdown col-md-2 offset-md-9">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -55,46 +68,102 @@
                     Actions
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li id="addTopClassification"><a class="dropdown-item" href="#">Add top classification</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li id="addTopClassification"><a class="dropdown-item" href="#">Add top Classification</a></li>
+                    <li><a class="dropdown-item" href="#">...</a></li>
                     <li><a class="dropdown-item" href="#">...</a></li>
                 </ul>
             </div>
         </div>
+
+        <!------------------------------------------- 主体 --------------------------------------------->
         <div class="row mb-3">
             <div id="box" class="col-md-4 offset-md-4"></div>
         </div>
-
-        <div id="menue1" class="list-group col-md-2">
-            <button type="button" class="list-group-item list-group-item-action" aria-current="true">
-                Add analgorithm
+        <!----------------------------------------- munue1 子节点-------------------------------------------->
+        <div id="menue1" class="list-group col-md-2 hiddenElem">
+            <button type="button" class="addSubClassification list-group-item list-group-item-action"
+                aria-current="true">
+                Add sub Classification
             </button>
-            <button type="button" class="list-group-item list-group-item-action" aria-current="true">
-                Add sub classification
+            <button type="button" id="1" class="addAlgorithmButton list-group-item list-group-item-action">
+                Add Algorithm
             </button>
-            <button type="button" class="list-group-item list-group-item-action">delete classification</button>
+            <!-- <button type="button" class="list-group-item list-group-item-action">delete classification</button> -->
         </div>
-
-        <div id="menue2" class="list-group col-md-2">
-            <button type="button" class="list-group-item list-group-item-action" aria-current="true">
+        <!----------------------------------------- munue2 ---------------- ---------------------------->
+        <div id="menue2" class="list-group col-md-2 hiddenElem">
+            <button type="button" class="addSubClassification list-group-item list-group-item-action"
+                aria-current="true">
                 Add sub classification
             </button>
-            <button type="button" class="list-group-item list-group-item-action" disabled>delete classification</button>
+            <button type="button" class="list-group-item list-group-item-action" disabled>...</button>
             <!-- <button type="button" class="list-group-item list-group-item-action">add alogithm</button>
             <button type="button" class="list-group-item list-group-item-action " disable>upload implementation</button> -->
         </div>
 
+        <!-------------------------------------- 创建classification --------------------------------------->
         <div
-            class="addClassificationBoard shadow p-3 mb-5 bg-body rounded position-absolute top-50 start-50 translate-middle col-md-3">
-            <div class="mb-3">
-                <label for="inputNewClassificationName" class="form-label">New Classification Name</label>
-                <input type="text" class="form-control" id="inputNewClassificationName" placeholder="Enter name">
+            class="addClassificationBoard hiddenElem shadow p-3 mb-5 bg-body rounded position-absolute top-50 start-50 translate-middle col-md-3">
+            <form name="addTopClassification">
+                <div class="mb-3">
+                    <p class="text-center fw-bold">Add Classification</p>
+                </div>
+                <div class="mb-3">
+                    <label for="inputNewClassificationName" class="form-label">New Top Classification Name</label>
+                    <input name="arg1" type="text" class="form-control" id="inputNewClassificationName"
+                        placeholder="Enter name">
 
-            </div>
-            <div class="mb-3">
-                <button type="button" class="btn btn-primary">Submit</button>
-            </div>
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="addTopSubmit btn btn-primary">Submit</button>
+                    <button type="button" class="addTopConcel btn btn-secondary">Concel</button>
+                </div>
+            </form>
         </div>
+        <div
+            class="addClassificationBoard1 hiddenElem shadow p-3 mb-5 bg-body rounded position-absolute top-50 start-50 translate-middle col-md-3">
+            <form name="addSubClassification">
+                <div class="mb-3">
+                    <p class="text-center fw-bold">Add Classification</p>
+                </div>
+                <div class="mb-3">
+                    <label for="inputNewSubClassificationName" class="form-label">New Sub Classification Name</label>
+                    <input name="arg1" type="text" class="form-control" id="inputNewSubClassificationName"
+                        placeholder="Enter name">
+
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="addSubSubmit btn btn-primary">Submit</button>
+                    <button type="button" class="addSubConcel btn btn-secondary">Concel</button>
+                </div>
+            </form>
+        </div>
+        <!-------------------------------------------------- 创建算法 ------------------------------------------>
+        <div
+            class="addAlgorithmBoard shadow p-3 mb-5 bg-body rounded position-absolute top-50 start-50 translate-middle col-md-4">
+
+            <form name="addAlgorithm">
+                <div class="mb-3">
+                    <p class="text-center fw-bold">Add Algorithm</p>
+                </div>
+                <div class="mb-3">
+                    <label for="inputNewAlgorithmName" class="form-label">New Algorithm Name</label>
+                    <input name="arg1" type="text" class="form-control" id="inputNewAlgorithmName"
+                        placeholder="Enter An Uniqe Name">
+                </div>
+                <div class="mb-3">
+                    <label for="inputNewAlgorithmDescription" class="form-label">Description</label>
+                    <input name="arg2" type="text" class="form-control" id="inputNewAlgorithmDescription"
+                        placeholder="Enter Brief Description">
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="addAlgoSubmit btn btn-primary">Submit</button>
+                    <button type="button" class="addAlgoConcel btn btn-secondary">Concel</button>
+                </div>
+            </form>
+
+        </div>
+
 
     </div>
 
