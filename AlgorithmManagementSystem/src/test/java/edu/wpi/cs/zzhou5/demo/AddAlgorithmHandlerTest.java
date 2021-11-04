@@ -31,12 +31,11 @@ public class AddAlgorithmHandlerTest extends LambdaTest{
     public void testShouldBeOk() {
     	int rndNum = (int)(990*(Math.random()));
     	String arg1 = "throwAway" + rndNum;
-//    	String var = "Greedy Algorithm";
-    	String arg2 = "This is description";
-    	int arg3 = 1;
-    	int arg4 = 18;
+    	int arg2 = 70;
+    	String arg3 = "This is description";
     	
-    	AddAlgorithmRequest ccr = new AddAlgorithmRequest(arg1,arg2,arg3,arg4);
+    	
+    	AddAlgorithmRequest ccr = new AddAlgorithmRequest(arg1,arg2,arg3);
         String SAMPLE_INPUT_STRING = new Gson().toJson(ccr);  
         
         try {

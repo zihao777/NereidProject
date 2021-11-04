@@ -40,7 +40,7 @@ java.sql.Connection conn;
 
         } catch (Exception e) {
         	e.printStackTrace();
-            throw new Exception("Failed in getting constant: " + e.getMessage());
+            throw new Exception("Failed in getting Algorithm: " + e.getMessage());
         }
     }
     
@@ -52,16 +52,14 @@ java.sql.Connection conn;
             
             // already present?
             while (resultSet.next()) {
-            	Algorithm c = generateAlgorithm(resultSet);
                 resultSet.close();
                 return false;
             }
 
-            ps = conn.prepareStatement("INSERT INTO " + tblName + " (name,description,stars,classification) values(?,?,?,?);");
+            ps = conn.prepareStatement("INSERT INTO " + tblName + " (name,description,classification) values(?,?,?);");
             ps.setString(1,  algo.name);
             ps.setString(2,  algo.description);
-            ps.setInt(3, algo.stars);
-            ps.setInt(4, algo.classification);
+            ps.setInt(3, algo.classification);
             ps.execute();
             return true;
 
@@ -96,10 +94,9 @@ java.sql.Connection conn;
     private Algorithm generateAlgorithm(ResultSet resultSet) throws Exception {
         String name  = resultSet.getString("name");
         String description = resultSet.getString("description");
-        int stars = resultSet.getInt("stars");
         int id = resultSet.getInt("id");
         int classification = resultSet.getInt("classification");
         
-        return new Algorithm (name, classification, description, stars,id);
+        return new Algorithm (name, classification, description,id);
     }
 }

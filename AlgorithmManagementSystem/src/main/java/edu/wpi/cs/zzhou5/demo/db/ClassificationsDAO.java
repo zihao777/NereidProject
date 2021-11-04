@@ -86,7 +86,10 @@ public class ClassificationsDAO {
             ps = conn.prepareStatement("SELECT * FROM " + tblName + " WHERE id = ?;");
             ps.setInt(1, c.fatherID);
             resultSet = ps.executeQuery();
-            resultSet.next();
+            boolean hasFather = resultSet.next();
+            if(!hasFather) {
+            	return true;
+            }
             
             String var1 = resultSet.getString("childrenID");
             if(var1.equals("")) {

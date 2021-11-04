@@ -22,13 +22,13 @@ import edu.wpi.cs.zzhou5.demo.model.Algorithm;
 public class AddAlgorithmHandler implements RequestHandler<AddAlgorithmRequest,AddAlgorithmResponse>{
 	LambdaLogger logger;
 	
-	boolean createAlgorithm(String name,String description, int stars, int classification) throws Exception { 
+	boolean createAlgorithm(String name, int classification,String description) throws Exception { 
 		if (logger != null) { logger.log("in add Classification"); }
 		AlgorithmsDAO dao = new AlgorithmsDAO();
 		
 		// check if present
 		Algorithm exist = dao.getAlgorithm(name);
-		Algorithm algo = new Algorithm (name, description,stars,classification);
+		Algorithm algo = new Algorithm (name,classification,description);
 		if (exist == null) {
 			return dao.addAlgorithm(algo);
 		} else {
@@ -43,7 +43,7 @@ public class AddAlgorithmHandler implements RequestHandler<AddAlgorithmRequest,A
 
 		AddAlgorithmResponse response;
 		try {
-			if (createAlgorithm(req.arg1,req.arg2,req.arg3,req.arg4)) {
+			if (createAlgorithm(req.arg1,req.arg2,req.arg3)) {
 				response = new AddAlgorithmResponse(req.arg1);
 			} else {
 				response = new AddAlgorithmResponse(req.arg1, 422);
