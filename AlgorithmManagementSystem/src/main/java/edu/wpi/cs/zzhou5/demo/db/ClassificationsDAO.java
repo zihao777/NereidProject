@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.wpi.cs.zzhou5.demo.model.Algorithm;
 import edu.wpi.cs.zzhou5.demo.model.Classification;
+import edu.wpi.cs.zzhou5.demo.model.Implementation;
 import edu.wpi.cs.zzhou5.demo.db.DatabaseUtil;
 
 public class ClassificationsDAO {
@@ -136,29 +138,6 @@ public class ClassificationsDAO {
             	String key = Integer.toString(c.id);
             	map.put(key,c);
             }
-            
-//            int levels = resultSet1.getInt("max(level)")+1;
-//            for(int i = 0 ; i<levels ; i ++ ) {
-//                query = "SELECT * FROM " + tblName + " WHERE level =" + i;
-//                resultSet1 = statement1.executeQuery(query);
-//                while(resultSet1.next()) {
-//                	 Classification c = generateClassification(resultSet1);
-//                	 String key = Integer.toString(c.id);
-//                	 for(int k = 0; k< c.childrenID.length ; k ++) {
-//                		 Statement statement2 = conn.createStatement();
-//                		 String query2 = "SELECT * FROM " + tblName + " WHERE id =" + c.childrenID[k];
-//                		 ResultSet resultSet2 = statement2.executeQuery(query2);
-//                		 while(resultSet2.next()) {
-//                			 Classification c2 = generateClassification(resultSet2);
-//                			 String key2 = Integer.toString(c2.id);
-//                			 c.childern.put(key2, c2);
-//                		 }
-//                		 resultSet2.close();
-//                         statement2.close();
-//                	 }
-//                	 map.put(key,c);	 
-//                }
-//            }
             resultSet1.close();
             statement1.close();
             return map;
@@ -166,24 +145,28 @@ public class ClassificationsDAO {
 			throw new Exception("Failed in getting classifications: " + e.getMessage());
 		}
 	}
-	
-	private Classification generateClassification(ResultSet resultSet) throws Exception {
-        String name  = resultSet.getString("name");
-        int id  = resultSet.getInt("id");
-        String childrenID = resultSet.getString("childrenID");
-        int level = resultSet.getInt("level");
-        int[] arr2 = null;
-        if(!childrenID.equals("")) {
-        	String[] arr1 = childrenID.split(",");
-            arr2 = new int[arr1.length];
-            for(int i = 0; i< arr1.length ; i++) {
-            	arr2[i] = Integer.parseInt(arr1[i]);
-            }
-        }
-        return new Classification (name,id,arr2,level);
-    }
 	private void buildTree(Classification c) throws Exception{
 		if(c.childrenID == null) {
+			Statement statement3 =  conn.createStatement();
+			String query3 = "SELECT * FROM Algorithms WHERE classification =" + c.id + ";";
+			ResultSet resultSet3 = statement3.executeQuery(query3);
+			while(resultSet3.next() ) {
+				Algorithm algo =  generateAlgorithm(resultSet3);
+				//-----------------add implementations
+				Statement statement5 =  conn.createStatement();
+				String query5 = "SELECT * FROM Implementations WHERE algorithm =" + algo.id + ";";
+				ResultSet resultSet5 = statement5.executeQuery(query5);
+				while(resultSet5.next()) {
+					Implementation implem =  generateImplementation(resultSet5);
+					algo.imples.add(implem);
+				}
+				statement5.close();
+				resultSet5.close();
+				//-----------------add implementations
+				c.algos.add(algo);
+			}
+			statement3.close();
+			resultSet3.close();
 			return;
 		}else {
 			for(int k = 0; k< c.childrenID.length ; k ++) {
@@ -199,7 +182,58 @@ public class ClassificationsDAO {
            		resultSet2.close();
                 statement2.close();
            	}
+			Statement statement4 =  conn.createStatement();
+			String query4 = "SELECT * FROM Algorithms WHERE classification =" + c.id + ";";
+			ResultSet resultSet4 = statement4.executeQuery(query4);
+			while(resultSet4.next() ) {
+				Algorithm algo =  generateAlgorithm(resultSet4);
+				//--------------add implementations
+				Statement statement5 =  conn.createStatement();
+				String query5 = "SELECT * FROM Implementations WHERE algorithm =" + algo.id + ";";
+				ResultSet resultSet5 = statement5.executeQuery(query5);
+				while(resultSet5.next()) {
+					Implementation implem =  generateImplementation(resultSet5);
+					algo.imples.add(implem);
+				}
+				statement5.close();
+				resultSet5.close();
+				//--------------add implementations
+				c.algos.add(algo);
+			}
+			statement4.close();
+			resultSet4.close();
 			return;
 		}
 	}
+	private Classification generateClassification(ResultSet resultSet) throws Exception {
+        String name  = resultSet.getString("name");
+        int id  = resultSet.getInt("id");
+        String childrenID = resultSet.getString("childrenID");
+        int level = resultSet.getInt("level");
+        int[] arr2 = null;
+        if(!childrenID.equals("")) {
+        	String[] arr1 = childrenID.split(",");
+            arr2 = new int[arr1.length];
+            for(int i = 0; i< arr1.length ; i++) {
+            	arr2[i] = Integer.parseInt(arr1[i]);
+            }
+        }
+        return new Classification (name,id,arr2,level);
+    }
+	private Algorithm generateAlgorithm(ResultSet resultSet) throws Exception {
+        String name  = resultSet.getString("name");
+        String description = resultSet.getString("description");
+        int id = resultSet.getInt("id");
+        int classification = resultSet.getInt("classification");
+        
+        return new Algorithm (name, classification, description,id);
+    }
+	private Implementation generateImplementation(ResultSet resultSet) throws Exception {
+        String language  = resultSet.getString("language");
+        String content = resultSet.getString("content");
+        int id = resultSet.getInt("id");
+        int algo = resultSet.getInt("algorithm");
+        
+        return new Implementation (language, content,id,algo);
+    }
 }

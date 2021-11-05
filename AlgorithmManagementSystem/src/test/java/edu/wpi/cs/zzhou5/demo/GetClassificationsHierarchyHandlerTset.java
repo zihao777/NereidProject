@@ -17,7 +17,7 @@ public class GetClassificationsHierarchyHandlerTset extends LambdaTest{
 		GetClassificationsHierarchyResponse resp = handler.handleRequest(null, createContext("hierarchy"));
         
         boolean hasE = false;
-        if(resp.map.get("1") != null) {
+        if(resp.map.get("70") != null) {
         	hasE = true;
         }
 //        for (Classification c : resp.map) {

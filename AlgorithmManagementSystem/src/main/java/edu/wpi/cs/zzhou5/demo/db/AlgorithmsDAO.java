@@ -87,7 +87,7 @@ java.sql.Connection conn;
             return algos;
             
     	}catch(Exception e) {
-			throw new Exception("Failed in getting algorithms: " + e.getMessage());
+			throw new Exception("Failed in getting all algorithms: " + e.getMessage());
 		}
     }
     

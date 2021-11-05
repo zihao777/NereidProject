@@ -29,11 +29,9 @@ public class UploadImplementationHandlerTest extends LambdaTest{
     
     @Test
     public void testShouldBeOk() {
-//    	int rndNum = (int)(990*(Math.random()));
     	String arg1 = "java";
-//    	String var = "Greedy Algorithm";
     	String arg2 = "code context /n";
-    	int arg3 = 16;
+    	int arg3 = 25;
     	
     	UploadImplementationRequest ccr = new UploadImplementationRequest(arg1,arg2,arg3);
         String SAMPLE_INPUT_STRING = new Gson().toJson(ccr);  
@@ -44,20 +42,5 @@ public class UploadImplementationHandlerTest extends LambdaTest{
         	Assert.fail("Invalid:" + ioe.getMessage());
         }
     }
-    
-//    @Test
-//    public void testShouldBefail() {
-//    	int rndNum = 197;
-//    	String var = "throwAway" + rndNum;
-//    	
-//    	AddClassificationRequest ccr = new AddClassificationRequest(var);
-//        String SAMPLE_INPUT_STRING = new Gson().toJson(ccr);
-//        int SAMPLE_FAIL_CODE = 422; 
-//        
-//        try {
-//        	testFailInput(SAMPLE_INPUT_STRING,SAMPLE_FAIL_CODE);
-//        } catch (IOException ioe) {
-//        	Assert.fail("Invalid:" + ioe.getMessage());
-//        }
-//    }
+
 }
